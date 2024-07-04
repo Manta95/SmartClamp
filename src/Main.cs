@@ -18,21 +18,40 @@ namespace SmartClamp
         public Main()
         {
             RequestLoad(GetHashKey("prop_cs_protest_sign_03"));
-            RequestLoad(GetHashKey("p_car_keys_01"));
+            RequestLoad(GetHashKey("prop_clamp"));
 
             Clamps = new Dictionary<int, int> { };
             Stickers = new Dictionary<int, int> { };
-            TriggerEvent("chat:addSuggestion", "/clamp", "Open the vehicle seize menu.");
+            TriggerEvent("chat:addSuggestion", "/clamp", "Ouvrir le menu du sabot.");
 
             EventHandlers["Client:ChangeCarState"] += new Action<int, bool>((netid, disable) =>
             {
                 if (disable)
                 {
                     SetVehicleEngineOn(NetToVeh(netid), false, false, true);
+                    SetEntityInvincible(NetToVeh(netid), true);
+                    SetDisableVehicleEngineFires(NetToVeh(netid), true);
+                    SetDisableVehiclePetrolTankDamage(NetToVeh(netid), true);
+                    SetDisableVehiclePetrolTankFires(NetToVeh(netid), true);
+                    SetDisableVehicleWindowCollisions(NetToVeh(netid), true);
+                    SetEntityCanBeDamaged(NetToVeh(netid), false);
+                    SetVehicleIsConsideredByPlayer(NetToVeh(netid), false);
+                    SetVehicleDoorsLocked(NetToVeh(netid), 10);
+                    FreezeEntityPosition(NetToVeh(netid), true);
                 }
                 else
                 {
-                    SetVehicleEngineOn(NetToVeh(netid), true, false, false);
+                    // SetVehicleEngineOn(NetToVeh(netid), true, false, false);
+                    SetEntityInvincible(NetToVeh(netid), false);
+                    SetDisableVehicleEngineFires(NetToVeh(netid), false);
+                    SetDisableVehiclePetrolTankDamage(NetToVeh(netid), false);
+                    SetDisableVehiclePetrolTankFires(NetToVeh(netid), false);
+                    SetDisableVehicleWindowCollisions(NetToVeh(netid), false);
+                    SetEntityCanBeDamaged(NetToVeh(netid), true);
+                    SetVehicleIsConsideredByPlayer(NetToVeh(netid), true);
+                    SetVehicleDoorsLocked(NetToVeh(netid), 0);
+                    SetVehicleDoorsLockedForAllPlayers(NetToVeh(netid), false);
+                    FreezeEntityPosition(NetToVeh(netid), false);
                 }
             });
         }
@@ -69,8 +88,8 @@ namespace SmartClamp
             SetNetworkIdExistsOnAllMachines(VehToNet(vehicle), true);
             if (type == 0)
             {
-                RequestModel((uint)GetHashKey("p_car_keys_01"));
-                Object = CreateObject(GetHashKey("p_car_keys_01"), coords.X, coords.Y, coords.Z, true, true, true);
+                RequestModel((uint)GetHashKey("prop_clamp"));
+                Object = CreateObject(GetHashKey("prop_clamp"), coords.X, coords.Y, coords.Z, true, true, true);
                 var boneIndex = GetEntityBoneIndexByName(vehicle, "wheel_lf");
                 SetEntityHeading(Object, 0f);
                 SetEntityRotation(Object, 60f, 20f, 10f, 1, true);
@@ -125,7 +144,7 @@ namespace SmartClamp
             }
             else
             {
-                Main.ShowNotification("No ~b~nearby ~w~vehicle found.");
+                Main.ShowNotification("Aucun ~r~véhicule proche.");
             }
         }
 
@@ -139,7 +158,7 @@ namespace SmartClamp
             }
             else
             {
-                Main.ShowNotification("No ~b~nearby ~w~vehicle found.");
+                Main.ShowNotification("Aucun ~r~véhicule proche.");
             }
         }
         public static void StickerHandler()
@@ -151,7 +170,7 @@ namespace SmartClamp
             }
             else
             {
-                Main.ShowNotification("No ~b~nearby ~w~vehicle found.");
+                Main.ShowNotification("Aucun ~r~véhicule proche.");
             }
         }
 
