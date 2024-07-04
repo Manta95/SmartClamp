@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +21,7 @@ namespace SmartClamp
                 MouseEdgeEnabled = false,
                 ControlDisablingEnabled = false
             };
-            mainMenu = new UIMenu("Vehicle Clamp", "Actions")
+            mainMenu = new UIMenu("Sabot", "Actions")
             {
                 MouseControlsEnabled = false
             };
@@ -49,15 +49,15 @@ namespace SmartClamp
 
         private static void VehicleControlMenu(UIMenu menu)
         {
-            var clampItem = new UIMenuItem("Clamp Vehicle", "Clamp the nearest vehicle");
+            var clampItem = new UIMenuItem("Poser Sabot", "Installer le Sabot");
             clampItem.SetRightBadge(UIMenuItem.BadgeStyle.Car);
             menu.AddItem(clampItem);
 
-            var stickerItem = new UIMenuItem("Place Sticker", "Place a seized sticker on the nearest vehicle");
+            var stickerItem = new UIMenuItem("Poser Sticker", "Poser un sticker de saisie");
             stickerItem.SetRightBadge(UIMenuItem.BadgeStyle.Car);
             menu.AddItem(stickerItem);
 
-            var removeClamp = new UIMenuItem("Remove Object", "Removes a nearby clamp or sticker");
+            var removeClamp = new UIMenuItem("Retirer", "Enlever le sabot ou le sticker");
             menu.AddItem(removeClamp);
             menu.OnItemSelect += (sender, item, index) =>
             {
